@@ -1,18 +1,12 @@
 services:
   db:
-    image: postgres:16-alpine
-    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: ./docker/db/Dockerfile
     env_file:
       - .env
-    environment:
-      POSTGRES_INITDB_ARGS: "-k"
     volumes:
-      # DBのデータ
       - test_pg_data:/var/lib/postgresql/data
-      # DBの初期化スクリプト
-      - ./db/init:/docker-entrypoint-initdb.d
-      # pg_hba.confを差し替え
-      - ./db/pg_hba.conf:/etc/pg_hba.conf:ro
     ports:
       - "5432:5432"           # ★あとで Cloud Run 固定 IP だけに絞る
 volumes:
