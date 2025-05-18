@@ -1,0 +1,12 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - test_pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"           # ★あとで Cloud Run 固定 IP だけに絞る
+volumes:
+  test_pg_data:
